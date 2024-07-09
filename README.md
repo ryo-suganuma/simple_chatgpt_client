@@ -1,68 +1,90 @@
 # ChatGPT API Client
 
-This Python script interacts with the OpenAI ChatGPT API. It allows users to send system and user prompts to ChatGPT, fetch the responses, and optionally format the responses in JSON mode.
+This is a command-line tool to interact with OpenAI's ChatGPT API.
+
+## Features
+
+- Send system and user prompts to ChatGPT.
+- Include images (both local and online) as additional input.
+- Support JSON mode for receiving structured responses.
 
 ## Requirements
 
-- Python 3.7+
-- Required libraries: `argparse`, `requests`, `json`, `os`, `sys`
+- Python 3.6 or later
+- `requests` library
+
+You can install the `requests` library using:
+
+```bash
+pip install requests
+```
 
 ## Installation
 
-1. Clone the repository (or download the code):
-    ```sh
-    git clone <repository_url>
-    cd <directory>
-    ```
+1. Clone the repository or download the script.
+2. Make sure you have Python installed.
+3. Install the required libraries by running:
 
-2. Install required packages:
-    ```sh
-    pip install requests
-    ```
+```bash
+pip install -r requirements.txt
+```
 
 ## Usage
 
-1. **Prepare your API Key**: 
-    Obtain an API key from OpenAI. The API key can be provided either as a command line argument or via an environment variable named `OPENAI_API_KEY`.
+Run the script from the command line with appropriate arguments.
 
-2. **Run the script with necessary arguments**:
-    ```sh
-    python chatgpt_client.py --system-prompt "Your system prompt" --user-prompt "Your user prompt with {{contents}}" [--api-key "Your OpenAI API key"] [--json-mode]
-    ```
+```bash
+python script.py --system-prompt "Your system prompt" --user-prompt "Hello, {{contents}}" --api-key "your-api-key"
+```
 
 ### Arguments
 
-- `--system-prompt`: (Required) The system-level prompt for ChatGPT.
-- `--user-prompt`: (Required) The user-level prompt template containing `{{contents}}` as a placeholder for standard input content.
-- `--api-key`: (Optional) Your OpenAI API key. If not provided, the script will look for the `OPENAI_API_KEY` environment variable.
-- `--json-mode`: (Optional) Enable JSON mode for the response. If this flag is set, the API response will be formatted as a JSON object.
+- `--system-prompt`: System prompt for ChatGPT. (Required)
+- `--user-prompt`: User prompt template containing `{{contents}}`. (Required)
+- `--api-key`: API key for OpenAI. You can either pass it as an argument or set it as an environment variable `OPENAI_API_KEY`.
+- `--json-mode`: Enable JSON mode for response.
+- `--images`: Paths to local images to be included in the request. (Optional)
+- `--image-urls`: URLs of online images to be included in the request. (Optional)
 
 ### Example
 
-Assuming you have saved the above code in a file named `chatgpt_client.py`:
+To send a system and user prompt along with an image URL:
 
-```sh
-echo "Your input content" | python chatgpt_client.py --system-prompt "You are a helpful assistant." --user-prompt "Please summarize the following: {{contents}}" --api-key "your_api_key" --json-mode
-
-# concrete example
-cat ./chatgpt_client.py | python3 ./chatgpt_client.py --system-prompt "You are helpful assistant." --user-prompt "Please create a README.md in English with the following code. <code>{{contents}}</code>" --api-key "xxxxxxxxxx" > README.md
+```bash
+python script.py --system-prompt "System prompt" --user-prompt "User prompt with content: {{contents}}" --api-key "your-api-key" --image-urls "https://example.com/image1.jpg"
 ```
 
 ### Environment Variable
 
-You can set the environment variable `OPENAI_API_KEY` to store your API key:
-```sh
-export OPENAI_API_KEY="your_api_key"
+Alternatively, you can set the `OPENAI_API_KEY` environment variable for the API key:
+
+```bash
+export OPENAI_API_KEY="your-api-key"
 ```
 
-### Error Handling
+Then run the script without the `--api-key` argument:
 
-- If the API key is not provided either via command line argument or environment variable, the script will print an error message and exit.
-- If the API returns an error, the script will print the error message and status code.
+```bash
+python script.py --system-prompt "Your system prompt" --user-prompt "Hello, {{contents}}"
+```
 
-## Note
+## Input
 
-This script uses the `gpt-4o` model for interaction. Modify the `model` parameter in the `data` dictionary if you want to use a different model available in your API subscription.
+The script will read from standard input (`stdin`). You can pipe input to the script or provide input interactively.
+
+### Example with Piping Input
+
+```bash
+echo "This is the content" | python script.py --system-prompt "System prompt" --user-prompt "User prompt with content: {{contents}}" --api-key "your-api-key"
+```
+
+## Output
+
+The response from ChatGPT will be printed to the standard output (`stdout`).
+
+## Error Handling
+
+If there is an error (e.g., missing API key or invalid request), the script will print an error message and exit with a non-zero status.
 
 ## License
 
