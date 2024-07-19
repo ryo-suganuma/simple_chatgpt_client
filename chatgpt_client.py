@@ -14,6 +14,7 @@ def get_args():
     parser.add_argument("--json-mode", action="store_true", help="Enable JSON mode for response")
     parser.add_argument("--images", type=str, nargs="*", default=[], help="")
     parser.add_argument("--image-urls", type=str, nargs="*", default=[], help="")
+    parser.add_argument("--model", type=str, default="gpt-4o-mini", help="LLM model")
 
     return parser.parse_args()
 
@@ -95,7 +96,7 @@ def main():
     }
 
     data = {
-        "model": "gpt-4o",
+        "model": args.model,
         "messages": messages,
         "max_tokens": 4000
     }

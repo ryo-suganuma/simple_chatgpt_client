@@ -45,6 +45,7 @@ python script.py --system-prompt "Your system prompt" --user-prompt "Hello, {{co
 - `--json-mode`: Enable JSON mode for response.
 - `--images`: Paths to local images to be included in the request. (Optional)
 - `--image-urls`: URLs of online images to be included in the request. (Optional)
+- `--model`: LLM model. (default: gpt-4o-mini)
 
 ### Example
 
